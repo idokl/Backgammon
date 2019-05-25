@@ -24,7 +24,7 @@ string pointRepresentation(Point p) {
 
 void printBoard(BoardState boardState) {
 	cout << "chekers on bar: WHITE: " << boardState.getBarCheckers(WHITE) << "\n";
-	cout << "                BLACK: " << boardState.getBarCheckers(BLACK) << "\n";
+	cout << "                BLACK: " << boardState.getBarCheckers(BLACK) << "  (bar index is 25)\n";
 	for (int i = 24; i > 0; i--) {
 		printf("%2d\t",i);
 	}
@@ -50,8 +50,7 @@ void UserInputPlayer::chooseMoves(BoardState boardState, Move &moveForDie1, Move
 	int pointIdxForDie1{ 0 }, pointIdxForDie2{ 0 };
 	bool valid{ false };
 	while(!valid) {
-		cout << this->name << ", please choose your moves:\n";
-		cout << "The state of the board is:\n";
+		cout << this->name << ", please choose your moves. The state of the board is:\n";
 		printBoard(boardState);
 		cout << "The dice are " << moveForDie1.getNumberOfSteps() << " and " << moveForDie2.getNumberOfSteps() << "\n";
 		cout << "Please enter point index for die1 (" << moveForDie1.getNumberOfSteps() <<"):\n";
@@ -60,9 +59,9 @@ void UserInputPlayer::chooseMoves(BoardState boardState, Move &moveForDie1, Move
 		cin >> pointIdxForDie2;
 		moveForDie1.choosePointToMoveFrom(pointIdxForDie1);
 		moveForDie2.choosePointToMoveFrom(pointIdxForDie2);
-		valid = (pointIdxForDie1 >= 0 && pointIdxForDie1 <= 24 && pointIdxForDie2 >= 0 && pointIdxForDie2 <= 24);
+		valid = (pointIdxForDie1 >= 1 && pointIdxForDie1 <= 25 && pointIdxForDie2 >= 1 && pointIdxForDie2 <= 25);
 		if (!valid) {
-			cout << "Please try again:\n";
+			cout << "Indexes should be between 1 and 25. Please try again.\n";
 		}
 	}
 }
@@ -71,11 +70,9 @@ void UserInputPlayer::chooseMoves(BoardState boardState, Move &move1, Move &move
 	int pointIdxForMove1{ 0 }, pointIdxForMove2{ 0 }, pointIdxForMove3{ 0 }, pointIdxForMove4{ 0 };
 	bool valid{ false };
 	while (!valid) {
-		cout << this->name << ", please choose your moves:\n";
-		cout << "The state of the board is:\n";
+		cout << this->name << ", please choose your moves. The state of the board is:\n";
 		printBoard(boardState);
-		cout << "The dice are " << move1.getNumberOfSteps() << " and " << move2.getNumberOfSteps() << " (doubles)\n";
-		cout << "You have to choose 4 moves\n";
+		cout << "The dice are " << move1.getNumberOfSteps() << " and " << move2.getNumberOfSteps() << " (doubles). You have to choose 4 moves\n";
 		cout << "Please enter point index for move1 (" << move1.getNumberOfSteps() << "):\n";
 		cin >> pointIdxForMove1;
 		cout << "Please enter point index for move2 (" << move2.getNumberOfSteps() << "):\n";
@@ -88,10 +85,10 @@ void UserInputPlayer::chooseMoves(BoardState boardState, Move &move1, Move &move
 		move2.choosePointToMoveFrom(pointIdxForMove2);
 		move3.choosePointToMoveFrom(pointIdxForMove3);
 		move4.choosePointToMoveFrom(pointIdxForMove4);
-		valid = (pointIdxForMove1 >= 0 && pointIdxForMove1 <= 24 && pointIdxForMove2 >= 0 && pointIdxForMove2 <= 24
-			&& pointIdxForMove3 >= 0 && pointIdxForMove3 <= 24 && pointIdxForMove4 >= 0 && pointIdxForMove4 <= 24);
+		valid = (pointIdxForMove1 >= 1 && pointIdxForMove1 <= 25 && pointIdxForMove2 >= 1 && pointIdxForMove2 <= 25
+			&& pointIdxForMove3 >= 1 && pointIdxForMove3 <= 25 && pointIdxForMove4 >= 1 && pointIdxForMove4 <= 25);
 		if (!valid) {
-			cout << "Please try again:\n";
+			cout << "Indexes should be between 1 and 25. Please try again.\n";
 		}
 	}
 }

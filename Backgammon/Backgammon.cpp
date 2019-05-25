@@ -15,9 +15,10 @@
 //}
 
 
-
 int main()
 {
+	//std::cout << "alert1234\v";
+
 	//Move m(1);
 	//set(m);
 	//std::cout << m.getChosenPointToMoveFrom() << "\n"; 
@@ -25,12 +26,12 @@ int main()
 	//std::cout << a[0] << a[1] << "\n";
 	printf("hello\n");
 	Board board = Board();
-	Player* p1 = new UserInputPlayer();
-	Player* p2 = new UserInputPlayer();
-	Logic logic = Logic(board, p1, p2);
+	Player* p1w = new UserInputPlayer("white player");
+	Player* p2b = new UserInputPlayer("black player");
+	Logic logic = Logic(board, p1w, p2b);
 	logic.startGame();
-	delete(p1);
-	delete(p2);
+	delete(p1w);
+	delete(p2b);
 	getchar();
     return 0;
 }

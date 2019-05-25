@@ -19,7 +19,7 @@ private:
 	Result makeMoves(list<Move> moves, Color color);
 
 public:
-	Logic(Board &gameBoard, Player* player1, Player* player2);
+	Logic(Board &gameBoard, Player* whitePlayer, Player* blackPlayer);
 
 	void startGame();
 

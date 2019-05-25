@@ -49,7 +49,7 @@ bool isValidMove(Move move, Color color, BoardState boardState) {
 	//check ability to move these steps (to the destination point)
 	int idxOfDestinationPoint = idxOfPointToMoveFrom - move.getNumberOfSteps();
 	if (idxOfDestinationPoint <= 0) {
-		if (areAllCheckersHome) {
+		if (areAllCheckersHome(color,boardState)) {
 			return true;
 		}
 		else {
@@ -60,6 +60,7 @@ bool isValidMove(Move move, Color color, BoardState boardState) {
 	if (destinationPoint.checkersColor != color && destinationPoint.checkersNum > 1) {
 		return false;
 	}
+
 	return true;
 }
 
@@ -121,34 +122,53 @@ void Logic::startGame() {
 	int dice[2];
 	bool gameOver{ false };
 	while(!gameOver) {
-		std::string currentPlayerColor = currentPlayerIdx ? "black" : "white";
+		std::string currentPlayerColor = currentPlayerIdx ? "BLACK" : "WHITE";
 		std::cerr << "INFO: Turn of " << currentPlayerColor << " player\n";
 		dice[0] = rand() % 6 + 1;
 		dice[1] = rand() % 6 + 1;
 		Move move1(dice[0]), move2(dice[1]), move3(dice[0]), move4(dice[1]);
 		BoardState boardState = gameBoard.getBoardState(colors[currentPlayerIdx]);
 		Result result{ FAILURE };
-		if (dice[0] == dice[1]) {
-			do {
+		do {
+			list<Move> movesList{};
+			if (dice[0] == dice[1]) {
 				players[currentPlayerIdx]->chooseMoves(boardState, move1, move2, move3, move4);
-				list<Move> movesList{};
-				movesList.push_back(move1);
-				movesList.push_back(move2);
 				movesList.push_back(move3);
 				movesList.push_back(move4);
-				result = makeMoves(movesList, colors[currentPlayerIdx]);
-			} while (result == FAILURE);
-		}
-		else {
-			do {
-				Player* p = players[currentPlayerIdx];
-				(*p).chooseMoves(boardState, move1, move2);
-				list<Move> movesList{};
-				movesList.push_back(move1);
-				movesList.push_back(move2);
-				result = makeMoves(movesList, colors[currentPlayerIdx]);
-			} while (result == FAILURE);
-		}
+			}
+			else
+			{
+				players[currentPlayerIdx]->chooseMoves(boardState, move1, move2);
+			}
+			movesList.push_back(move1);
+			movesList.push_back(move2);
+			result = makeMoves(movesList, colors[currentPlayerIdx]);
+			if (result == FAILURE) {
+				std::cerr << "INFO: INVALID MOVE OF " << currentPlayerColor << " PLAYER\n";
+			}
+		} while (result == FAILURE);
+
+		//if (dice[0] == dice[1]) {
+		//	do {
+		//		players[currentPlayerIdx]->chooseMoves(boardState, move1, move2, move3, move4);
+		//		list<Move> movesList{};
+		//		movesList.push_back(move1);
+		//		movesList.push_back(move2);
+		//		movesList.push_back(move3);
+		//		movesList.push_back(move4);
+		//		result = makeMoves(movesList, colors[currentPlayerIdx]);
+		//	} while (result == FAILURE);
+		//}
+		//else {
+		//	do {
+		//		(players[currentPlayerIdx])->chooseMoves(boardState, move1, move2);
+		//		list<Move> movesList{};
+		//		movesList.push_back(move1);
+		//		movesList.push_back(move2);
+		//		result = makeMoves(movesList, colors[currentPlayerIdx]);
+		//	} while (result == FAILURE);
+		//}
+
 		//check whether game over
 		currentPlayerIdx = 1 - currentPlayerIdx;
 	}
